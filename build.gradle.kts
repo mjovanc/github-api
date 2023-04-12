@@ -1,5 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.8.10"
+    id("org.jetbrains.dokka") version "1.8.10"
     application
 }
 
@@ -24,4 +25,14 @@ kotlin {
 
 application {
     mainClass.set("MainKt")
+}
+
+tasks.register<Copy>("copyDokkaHtmlMultiModule") {
+    dependsOn("dokkaHtmlMultiModule")
+    println("${projectDir}/docs/${version}")
+    mkdir("${projectDir}/docs/${version}")
+
+    from("${buildDir}/dokka/htmlMultiModule")
+    into(layout.buildDirectory.dir("${projectDir}/docs/${version}"))
+    include("**/*.*")
 }
