@@ -16,7 +16,6 @@ Kotlin API for GitHub.
 - [Contributors](#contributors)
 - [License](#license)
 
-
 ## Development Resources
 
 - Docs: https://github.com/mjovanc/github-api/wiki
@@ -32,7 +31,7 @@ Are you having trouble with Kotlin API for GitHub? We want to help!
 
 - If you are upgrading, read the release notes for upgrade instructions and "new and noteworthy" features.
 
-- Ask a question we monitor stackoverflow.com for questions tagged with kryptokrona-kotlin-sdk. You can also chat with the community on Hugin or Discord.
+- Ask a question we monitor stackoverflow.com for questions tagged with kotlin-github-api.
 
 - Report bugs with Kotlin API for GitHub at https://github.com/mjovanc/github-api/issues.
 
