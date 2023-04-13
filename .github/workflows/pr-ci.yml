@@ -1,7 +1,7 @@
 name: pull request
 
 env:
-  KRYPTOKRONA_HTTP_KOVER_XML: ./kryptokrona-http/build/reports/kover/report.xml
+  KOVER_XML: ./build/reports/kover/report.xml
 
 on: [ pull_request ]
 
@@ -57,7 +57,7 @@ jobs:
       - uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{ env.KRYPTOKRONA_HTTP_KOVER_XML }} # TODO: add additional modules later when unit tests are in place
+          files: ${{ env.KOVER_XML }}
           flags: unittests, grid # optional
           layout: horizontal
           name: codecov-umbrella # optional
