@@ -127,8 +127,30 @@ class CollaboratorsClient {
         return null
     }
 
-    suspend fun removeRepositoryCollaborator() {
-        logger.info("removeRepositoryCollaborator")
+    /**
+     * Remove repository collaborator
+     *
+     * @param owner String
+     * @param repo String
+     * @param username String
+     * @see <a href="https://docs.github.com/en/rest/reference/repos#remove-repository-collaborator">Remove repository collaborator</a>
+     * @since 0.1.0
+     * @return Boolean? True if user is a collaborator, false if not, null if error
+     */
+    suspend fun removeRepositoryCollaborator(owner: String, repo: String, username: String): Boolean? {
+        try {
+            val request = client.delete("https://api.github.com/repos/$owner/$repo/collaborators/$username") {
+                header("Accept", "application/vnd.github+json")
+                header("Authorization", "Bearer $token")
+                header("X-GitHub-Api-Version", "2022-11-28")
+            }.status.value
+
+            return request == 204
+        } catch (e: Exception) {
+            logger.error("Error with check if a user is a repository collaborator.", e)
+        }
+
+        return null
     }
 
     suspend fun getRepositoryPermissionForUser() {
