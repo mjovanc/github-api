@@ -2,6 +2,7 @@ package com.mjovanc.github.client.collaborators
 
 import com.mjovanc.github.client.client
 import com.mjovanc.github.model.response.collaborators.Collaborator
+import com.mjovanc.github.model.response.collaborators.CollaboratorPermission
 import com.mjovanc.github.model.response.collaborators.RepositoryInvitation
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -94,7 +95,7 @@ class CollaboratorsClient {
 
             return request == 204
         } catch (e: Exception) {
-            logger.error("Error with check if a user is a repository collaborator.", e)
+            logger.error("Error checking if a user is a repository collaborator.", e)
         }
 
         return null
@@ -121,7 +122,7 @@ class CollaboratorsClient {
                 setBody(TextContent(payload, ContentType.Application.Json))
             }.body()
         } catch (e: Exception) {
-            logger.error("Error with check if a user is a repository collaborator.", e)
+            logger.error("Error adding repository collaborator.", e)
         }
 
         return null
@@ -147,14 +148,34 @@ class CollaboratorsClient {
 
             return request == 204
         } catch (e: Exception) {
-            logger.error("Error with check if a user is a repository collaborator.", e)
+            logger.error("Error removing repository collaborator.", e)
         }
 
         return null
     }
 
-    suspend fun getRepositoryPermissionForUser() {
-        logger.info("listInvitationsForARepository")
+    /**
+     * Get repository permission for user
+     *
+     * @param owner String
+     * @param repo String
+     * @param username String
+     * @see <a href="https://docs.github.com/en/rest/reference/repos#get-repository-permission-for-a-user">Get repository permission for a user</a>
+     * @since 0.1.0
+     * @return CollaboratorPermission? Collaborator permission, null if error
+     */
+    suspend fun getRepositoryPermissionForUser(owner: String, repo: String, username: String): CollaboratorPermission? {
+        try {
+            return client.get("https://api.github.com/repos/$owner/$repo/collaborators/$username/permission") {
+                header("Accept", "application/vnd.github+json")
+                header("Authorization", "Bearer $token")
+                header("X-GitHub-Api-Version", "2022-11-28")
+            }.body<CollaboratorPermission>()
+        } catch (e: Exception) {
+            logger.error("Error with get repository permission for user.", e)
+        }
+
+        return null
     }
 
 }

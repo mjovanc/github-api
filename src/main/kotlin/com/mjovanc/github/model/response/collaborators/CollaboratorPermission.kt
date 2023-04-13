@@ -1,0 +1,11 @@
+package com.mjovanc.github.model.response.collaborators
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class CollaboratorPermission(
+    @SerialName("permission") val permission: String,
+    @SerialName("role_name") val roleName: String,
+    @SerialName("user") val user: User
+)
