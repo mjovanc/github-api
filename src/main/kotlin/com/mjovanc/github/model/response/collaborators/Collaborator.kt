@@ -26,12 +26,3 @@ data class Collaborator(
     val permissions: Permissions,
     @SerialName("role_name") val roleName: String
 )
-
-@Serializable
-data class Permissions(
-    val admin: Boolean,
-    val maintain: Boolean,
-    val push: Boolean,
-    val triage: Boolean,
-    val pull: Boolean
-)
