@@ -42,7 +42,7 @@ class CollaboratorsClient {
      * @param page Int
      * @see <a href="https://docs.github.com/en/rest/reference/repos#list-repository-collaborators">List repository collaborators</a>
      * @since 0.1.0
-     * @return List<Collaborator>? List of collaborators
+     * @return List<Collaborator>? List of collaborators, null if error
      */
     suspend fun listRepositoryCollaborators(
         owner: String,
@@ -63,14 +63,36 @@ class CollaboratorsClient {
                 parameter("page", page)
             }.body<List<Collaborator>>()
         } catch (e: Exception) {
-            logger.error("Error getting list of repository collaborators", e)
+            logger.error("Error getting list of repository collaborators.", e)
         }
 
         return null
     }
 
-    suspend fun checkIfUserIsARepositoryCollaborator() {
-        logger.info("checkIfUserIsARepositoryCollaborator")
+    /**
+     * Check if a user is a repository collaborator
+     *
+     * @param owner String
+     * @param repo String
+     * @param username String
+     * @see <a href="https://docs.github.com/en/rest/reference/repos#check-if-a-user-is-a-repository-collaborator">Check if a user is a repository collaborator</a>
+     * @since 0.1.0
+     * @return Boolean? True if user is a collaborator, false if not, null if error
+     */
+    suspend fun checkIfUserIsARepositoryCollaborator(owner: String, repo: String, username: String): Boolean? {
+        try {
+            val request = client.get("https://api.github.com/repos/$owner/$repo/collaborators/$username") {
+                header("Accept", "application/vnd.github+json")
+                header("Authorization", "Bearer $token")
+                header("X-GitHub-Api-Version", "2022-11-28")
+            }.status.value
+
+            return request == 204
+        } catch (e: Exception) {
+            logger.error("Error with check if a user is a repository collaborator.", e)
+        }
+
+        return null
     }
 
     suspend fun addRepositoryCollaborator() {
