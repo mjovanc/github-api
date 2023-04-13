@@ -51,6 +51,12 @@ java {
 }
 
 koverReport {
+    filters {
+        excludes {
+            classes("com.mjovanc.github.model.*")
+        }
+    }
+
     verify {
         onCheck = true
         rule {
