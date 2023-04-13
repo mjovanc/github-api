@@ -6,8 +6,6 @@ import com.mjovanc.github.model.response.collaborators.CollaboratorPermission
 import com.mjovanc.github.model.response.collaborators.RepositoryInvitation
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.http.content.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
@@ -113,14 +111,15 @@ class CollaboratorsClient {
      * @return RepositoryInvitation? Repository invitation, null if error
      */
     suspend fun addRepositoryCollaborator(owner: String, repo: String, username: String, permission: String?): RepositoryInvitation? {
+        //TODO for some reason it works, but it can not parse the response of JSON to map RepositoryInvitation
         try {
             val payload = Json.encodeToString(mapOf("permission" to permission))
             return client.put("https://api.github.com/repos/$owner/$repo/collaborators/$username") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
-                setBody(TextContent(payload, ContentType.Application.Json))
-            }.body()
+                setBody(payload)
+            }.body<RepositoryInvitation>()
         } catch (e: Exception) {
             logger.error("Error adding repository collaborator.", e)
         }

@@ -35,16 +35,28 @@ class CollaboratorsClientTest {
 
     @Test
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
-    fun addRepositoryCollaborator() {
+    fun `can add repository collaborator`() = runTest {
+        val data = client.addRepositoryCollaborator(owner="mjovanc", repo="github-api", username="marcuscvj", permission="pull")
+
+        assertNotNull(data)
     }
 
     @Test
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
-    fun removeRepositoryCollaborator() {
+    fun `can remove repository collaborator`() = runTest {
+        val data = client.removeRepositoryCollaborator(owner="mjovanc", repo="github-api", username="marcuscvj")
+
+        assertTrue { data!! }
     }
 
     @Test
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
-    fun getRepositoryPermissionForUser() {
+    fun `can get repository permission for user`() = runTest {
+        val collaboratorPermission = client.getRepositoryPermissionForUser(owner="mjovanc", repo="github-api", username="mjovanc")
+        val collaboratorPermission2 = client.getRepositoryPermissionForUser(owner="mjovanc", repo="github-api", username="TechyGuy")
+
+        if (collaboratorPermission != null) { assertTrue { collaboratorPermission.permission == "admin" } }
+        if (collaboratorPermission2 != null) { assertTrue { collaboratorPermission2.permission == "read" } }
+        if (collaboratorPermission2 != null) { assertFalse { collaboratorPermission2.permission == "admin" } }
     }
 }
