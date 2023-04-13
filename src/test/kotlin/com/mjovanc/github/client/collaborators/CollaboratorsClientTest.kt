@@ -16,9 +16,11 @@ class CollaboratorsClientTest {
         val repo = "github-api"
 
         // Act
-        val data = client.listRepositoryCollaborators(owner=owner, repo=repo)
+        val dataWithOutQueryParams = client.listRepositoryCollaborators(owner=owner, repo=repo)
+        val dataWithQueryParams = client.listRepositoryCollaborators(owner=owner, repo=repo, affiliation="direct")
 
         // Assert
-        assertNotNull(data)
+        assertNotNull(dataWithOutQueryParams)
+        assertNotNull(dataWithQueryParams)
     }
 }
