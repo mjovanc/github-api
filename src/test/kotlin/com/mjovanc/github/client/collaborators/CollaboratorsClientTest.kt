@@ -36,7 +36,7 @@ class CollaboratorsClientTest {
     @Test
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun `can add repository collaborator`() = runTest {
-        val data = client.addRepositoryCollaborator(owner="mjovanc", repo="github-api", username="marcuscvj", permission="pull")
+        val data = client.addRepositoryCollaborator(owner="mjovanc", repo="github-api", username="TechyGuy", permission="pull")
 
         assertNotNull(data)
     }

@@ -13,6 +13,8 @@ Kotlin API for GitHub.
 - [Development resources](#development-resources)
 - [Getting Help](#getting-help)
 - [Reporting Issues](#reporting-issues)
+- [Get started](#get-started)
+- [Usage](#usage)
 - [Contributors](#contributors)
 - [License](#license)
 
@@ -50,6 +52,51 @@ Kotlin API for GitHub uses GitHub’s integrated issue tracking system to record
 - If you need to paste code or include a stack trace, use Markdown. ``` escapes before and after your text.
 
 - If possible, try to create a test case or project that replicates the problem and attach it to the issue.
+
+## Get started
+
+To install Kotlin API for GitHub into your Maven/Gradle project we need to include the dependency:
+
+**Maven**
+```xml
+<dependency>
+    <groupId>com.mjovanc.github</groupId>
+    <artifactId>api</artifactId>
+    <version>enter-version-here</version>
+    <scope>implementation</scope>
+</dependency>
+```
+
+**Gradle**
+```gradle
+dependencies {
+    implementation 'com.mjovanc.github:api:<version>'
+}
+```
+
+**Gradle Kotlin DSL**
+```kotlin
+dependencies {
+    implementation("com.mjovanc.github:api:<version>")
+}
+```
+
+## Usage
+
+Then simply use a client depending on your need. In this example, to use CollaboratorsClient 
+you need to have a valid GitHub token and add it either to a file called `github.properties` in the root of the project
+or as an environment variable called `GITHUB_TOKEN`. 
+
+To use the client, simply create an instance of it and call the methods you need.
+
+```kotlin
+fun main() = runBlocking {
+    val client = CollaboratorsClient()
+    val collaborators: List<Collaborator> = client.listCollaborators("mjovanc", "github-api")
+    collaborators.forEach { println(it.login) }
+}
+```
+
 
 ## Contributors
 
