@@ -55,17 +55,7 @@ Kotlin API for GitHub uses GitHub’s integrated issue tracking system to record
 
 ## Get started
 
-To install Kotlin API for GitHub into your Maven/Gradle project we need to include the dependency:
-
-**Maven**
-```xml
-<dependency>
-    <groupId>com.mjovanc.github</groupId>
-    <artifactId>api</artifactId>
-    <version>enter-version-here</version>
-    <scope>implementation</scope>
-</dependency>
-```
+To install Kotlin API for GitHub into your Gradle project we need to include the dependency:
 
 **Gradle**
 ```gradle
