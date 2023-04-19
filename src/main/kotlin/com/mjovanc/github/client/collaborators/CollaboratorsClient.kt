@@ -51,10 +51,10 @@ class CollaboratorsClient {
     suspend fun listRepositoryCollaborators(
         owner: String,
         repo: String,
-        affiliation: String? = null,
+        affiliation: String? = "all",
         permission: String? = null,
-        perPage: Int? = null,
-        page: Int? = null
+        perPage: Int? = 30,
+        page: Int? = 1
     ): List<Collaborator>? {
         try {
             return client.get("https://api.github.com/repos/$owner/$repo/collaborators") {
@@ -110,7 +110,8 @@ class CollaboratorsClient {
      * @since 0.1.0
      * @return RepositoryInvitation? Repository invitation, null if error
      */
-    suspend fun addRepositoryCollaborator(owner: String, repo: String, username: String, permission: String?): RepositoryInvitation? {
+    suspend fun addRepositoryCollaborator(owner: String, repo: String, username: String, permission: String? = "push"):
+            RepositoryInvitation? {
         //TODO for some reason it works, but it can not parse the response of JSON to map RepositoryInvitation
         try {
             val payload = Json.encodeToString(mapOf("permission" to permission))

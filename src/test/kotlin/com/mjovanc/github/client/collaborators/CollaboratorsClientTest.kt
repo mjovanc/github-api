@@ -26,8 +26,16 @@ class CollaboratorsClientTest {
     @Test
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun `can check if user is a repository collaborator`() = runTest {
-        val shouldBeACollaborator = client.checkIfUserIsARepositoryCollaborator(owner="mjovanc", repo="github-api", username="mjovanc")
-        val shouldNotBeACollaborator = client.checkIfUserIsARepositoryCollaborator(owner="mjovanc", repo="github-api", username="mjovanc2")
+        val shouldBeACollaborator = client.checkIfUserIsARepositoryCollaborator(
+            owner="mjovanc",
+            repo="github-api",
+            username="mjovanc"
+        )
+        val shouldNotBeACollaborator = client.checkIfUserIsARepositoryCollaborator(
+            owner="mjovanc",
+            repo="github-api",
+            username="mjovanc2"
+        )
 
         assertTrue { shouldBeACollaborator!! }
         assertFalse { shouldNotBeACollaborator!! }
@@ -36,7 +44,12 @@ class CollaboratorsClientTest {
     @Test
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun `can add repository collaborator`() = runTest {
-        val data = client.addRepositoryCollaborator(owner="mjovanc", repo="github-api", username="TechyGuy", permission="pull")
+        val data = client.addRepositoryCollaborator(
+            owner="mjovanc",
+            repo="github-api",
+            username="TechyGuy",
+            permission="pull"
+        )
 
         assertNotNull(data)
     }
@@ -52,8 +65,16 @@ class CollaboratorsClientTest {
     @Test
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun `can get repository permission for user`() = runTest {
-        val collaboratorPermission = client.getRepositoryPermissionForUser(owner="mjovanc", repo="github-api", username="mjovanc")
-        val collaboratorPermission2 = client.getRepositoryPermissionForUser(owner="mjovanc", repo="github-api", username="TechyGuy")
+        val collaboratorPermission = client.getRepositoryPermissionForUser(
+            owner="mjovanc",
+            repo="github-api",
+            username="mjovanc"
+        )
+        val collaboratorPermission2 = client.getRepositoryPermissionForUser(
+            owner="mjovanc",
+            repo="github-api",
+            username="TechyGuy"
+        )
 
         if (collaboratorPermission != null) { assertTrue { collaboratorPermission.permission == "admin" } }
         if (collaboratorPermission2 != null) { assertTrue { collaboratorPermission2.permission == "read" } }
