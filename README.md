@@ -8,16 +8,6 @@
 
 Kotlin API for GitHub.
 
-## Table of Contents
-
-- [Development resources](#development-resources)
-- [Getting Help](#getting-help)
-- [Reporting Issues](#reporting-issues)
-- [Get started](#get-started)
-- [Usage](#usage)
-- [Contributors](#contributors)
-- [License](#license)
-
 ## Development Resources
 
 - Docs: https://github.com/mjovanc/github-api/wiki
@@ -29,15 +19,11 @@ Kotlin API for GitHub.
 
 Are you having trouble with Kotlin API for GitHub? We want to help!
 
-- Read through all documentation on our Wiki: https://github.com/mjovanc/github-api/wiki
-
 - If you are upgrading, read the release notes for upgrade instructions and "new and noteworthy" features.
 
 - Ask a question we monitor stackoverflow.com for questions tagged with kotlin-github-api.
 
 - Report bugs with Kotlin API for GitHub at https://github.com/mjovanc/github-api/issues.
-
-- Join the Discussion and be part of the community at https://github.com/mjovanc/github-api/discussions
 
 ## Reporting Issues
 
