@@ -8,13 +8,6 @@
 
 Kotlin API for GitHub.
 
-## Development Resources
-
-- Docs: https://github.com/mjovanc/github-api/wiki
-- Mail: [mjovanc@icloud.com](mailto:mjovanc@icloud.com)
-- GitHub: https://github.com/mjovanc/github-api
-- Twitter: https://twitter.com/mjovanc
-
 ## Getting Help
 
 Are you having trouble with Kotlin API for GitHub? We want to help!
