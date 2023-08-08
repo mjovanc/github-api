@@ -1,5 +1,6 @@
 package com.mjovanc.github.model.response.collaborators
 
+import com.mjovanc.github.model.response.User
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
