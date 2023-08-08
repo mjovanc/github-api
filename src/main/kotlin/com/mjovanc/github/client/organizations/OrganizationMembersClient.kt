@@ -92,4 +92,36 @@ class OrganizationMembersClient {
         return null
     }
 
+    // Create an organization invitation
+
+    // Cancel an organization invitation
+
+    // List organization invitation teams
+
+    // List organization members
+
+    // Check organization membership for a user
+
+    // Remove an organization member
+
+    // Get organization membership for a user
+
+    // Set organization membership for a user
+
+    // Remove organization membership for a user
+
+    // List public organization members
+
+    // Check public organization membership for a user
+
+    // Set public organization membership for the authenticated user
+
+    // Remove public organization membership for the authenticated user
+
+    // List organization memberships for the authenticated user
+
+    // Get an organization membership for the authenticated user
+
+    // Update an organization membership for the authenticated user
+
 }

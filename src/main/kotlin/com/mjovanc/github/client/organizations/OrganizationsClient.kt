@@ -28,4 +28,20 @@ class OrganizationsClient {
         }
     }
 
+    // List organizations
+
+    // Get an organization
+
+    // Update an organization
+
+    // Delete an organization
+
+    // List app installations for an organization
+
+    // Enable or disable a security feature for an organization
+
+    // List organizations for the authenticated user
+
+    // List organizations for a user
+
 }
