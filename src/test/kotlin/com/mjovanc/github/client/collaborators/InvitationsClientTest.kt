@@ -21,4 +21,41 @@ class InvitationsClientTest {
         assertNotNull(data)
     }
 
+    @Test
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    fun `can update repository invitation`() = runTest {
+        val owner = "mjovanc"
+        val repo = "github-api"
+        val invitationId = 1L
+        val permission = "write"
+
+        /*val data = client.updateRepositoryInvitation(
+            owner=owner,
+            repo=repo,
+            invitationId=invitationId,
+            permission=permission
+        )
+
+        assertNotNull(data)*/
+    }
+
+    @Test
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    fun `can delete repository invitation`() = runTest {
+    }
+
+    @Test
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    fun `can list repository invitations for authenticated user`() = runTest {
+    }
+
+    @Test
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    fun `can accept repository invitation`() = runTest {
+    }
+
+    @Test
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    fun `can decline repository invitation`() = runTest {
+    }
 }

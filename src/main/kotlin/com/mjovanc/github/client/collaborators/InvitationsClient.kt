@@ -85,6 +85,9 @@ class InvitationsClient {
             logger.error("Error updating repository invitation.", e)
         }
 
+        //TODO: RepositoryInvitation differs from this: https://docs.github.com/en/rest/collaborators/invitations?apiVersion=2022-11-28#update-a-repository-invitation
+        // need to add a new data class perhaps
+
         return null
     }
 
