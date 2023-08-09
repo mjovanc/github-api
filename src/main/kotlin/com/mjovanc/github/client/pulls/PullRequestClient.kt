@@ -28,4 +28,22 @@ class PullRequestClient {
         }
     }
 
+    // List pull requests
+
+    // Create a pull request
+
+    // Get a pull request
+
+    // Update a pull request
+
+    // List commits on a pull request
+
+    // List pull requests files
+
+    // Check if a pull request has been merged
+
+    // Merge a pull request
+
+    // Update a pull request branch
+
 }
