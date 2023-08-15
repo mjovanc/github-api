@@ -3,9 +3,13 @@ package com.mjovanc.github.client.pulls
 import com.mjovanc.github.client.client
 import com.mjovanc.github.client.collaborators.CollaboratorsClient
 import com.mjovanc.github.model.response.collaborators.Collaborator
+import com.mjovanc.github.model.response.collaborators.CreatePullRequest
+import com.mjovanc.github.model.response.collaborators.RepositoryInvitation
 import com.mjovanc.github.model.response.pulls.PullRequest
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
 import java.util.*
 
@@ -80,7 +84,32 @@ class PullRequestClient {
         return null
     }
 
-    // Create a pull request
+    /**
+     * List pull requests
+     *
+     * @param owner String
+     * @param repo String
+     * @param createPullRequest CreatePullRequest
+     * @see <a href="https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#create-a-pull-request">Create a pull request</a>
+     * @since 0.1.0
+     * @return PullRequest? null if error
+     */
+    suspend fun createPullRequest(owner: String, repo: String, createPullRequest: CreatePullRequest):
+            PullRequest? {
+        try {
+            val payload = Json.encodeToString(createPullRequest)
+            return client.post("https://api.github.com/repos/$owner/$repo/pulls") {
+                header("Accept", "application/vnd.github+json")
+                header("Authorization", "Bearer $token")
+                header("X-GitHub-Api-Version", "2022-11-28")
+                setBody(payload)
+            }.body<PullRequest>()
+        } catch (e: Exception) {
+            logger.error("Error creating pull request.", e)
+        }
+
+        return null
+    }
 
     // Get a pull request
 
