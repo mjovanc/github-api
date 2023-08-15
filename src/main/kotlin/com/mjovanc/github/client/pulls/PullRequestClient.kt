@@ -2,9 +2,7 @@ package com.mjovanc.github.client.pulls
 
 import com.mjovanc.github.client.client
 import com.mjovanc.github.client.collaborators.CollaboratorsClient
-import com.mjovanc.github.model.response.collaborators.Collaborator
-import com.mjovanc.github.model.response.collaborators.CreatePullRequest
-import com.mjovanc.github.model.response.collaborators.RepositoryInvitation
+import com.mjovanc.github.model.request.pulls.CreatePullRequest
 import com.mjovanc.github.model.response.pulls.PullRequest
 import io.ktor.client.call.*
 import io.ktor.client.request.*

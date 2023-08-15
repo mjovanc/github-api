@@ -1,4 +1,4 @@
-package com.mjovanc.github.model.response.collaborators
+package com.mjovanc.github.model.request.pulls
 
 import kotlinx.serialization.Serializable
 
