@@ -4,6 +4,7 @@ import com.mjovanc.github.client.client
 import com.mjovanc.github.model.response.collaborators.RepositoryInvitation
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
@@ -130,13 +131,16 @@ class InvitationsClient {
     suspend fun listRepositoryInvitationsForAuthenticatedUser(owner: String, perPage: Int? = 30, page: Int? = 1):
             List<RepositoryInvitation>? {
         try {
-            return client.get("https://api.github.com/repos/$owner/repository_invitations") {
+            val response = client.get("https://api.github.com/repos/$owner/repository_invitations") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
                 parameter("per_page", perPage)
                 parameter("page", page)
-            }.body<List<RepositoryInvitation>>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<List<RepositoryInvitation>>()
         } catch (e: Exception) {
             logger.error("Error getting list of invitations for authenticated user.", e)
         }

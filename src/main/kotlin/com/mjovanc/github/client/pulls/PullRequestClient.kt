@@ -6,6 +6,7 @@ import com.mjovanc.github.model.request.pulls.CreatePullRequest
 import com.mjovanc.github.model.response.pulls.PullRequest
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
@@ -92,16 +93,19 @@ class PullRequestClient {
      * @since 0.1.0
      * @return PullRequest? null if error
      */
-    suspend fun createPullRequest(owner: String, repo: String, createPullRequest: CreatePullRequest):
+    suspend fun createPullRequest(owner: String, repo: String, pullRequest: CreatePullRequest):
             PullRequest? {
         try {
-            val payload = Json.encodeToString(createPullRequest)
-            return client.post("https://api.github.com/repos/$owner/$repo/pulls") {
+            val payload = Json.encodeToString(pullRequest)
+            val response = client.post("https://api.github.com/repos/$owner/$repo/pulls") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
                 setBody(payload)
-            }.body<PullRequest>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<PullRequest>()
         } catch (e: Exception) {
             logger.error("Error creating pull request.", e)
         }
@@ -109,18 +113,32 @@ class PullRequestClient {
         return null
     }
 
-    // Get a pull request
+    suspend fun getPullRequest(): PullRequest? {
+        return null
+    }
 
-    // Update a pull request
+    suspend fun updatePullRequest(): PullRequest? {
+        return null
+    }
 
-    // List commits on a pull request
+    suspend fun listCommitsOfPullRequest(): PullRequest? {
+        return null
+    }
 
-    // List pull requests files
+    suspend fun listFilesOfPullRequest(): PullRequest? {
+        return null
+    }
 
-    // Check if a pull request has been merged
+    suspend fun isPullRequestMerged(): PullRequest? {
+        return null
+    }
 
-    // Merge a pull request
+    suspend fun mergePullRequest(): PullRequest? {
+        return null
+    }
 
-    // Update a pull request branch
+    suspend fun updateBranchOfPullRequest(): PullRequest? {
+        return null
+    }
 
 }

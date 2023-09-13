@@ -1,7 +1,9 @@
 package com.mjovanc.github.client.pulls
 
+import com.mjovanc.github.model.request.pulls.CreatePullRequest
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
+import kotlin.test.assertNotNull
 
 class PullRequestClientTest {
 
@@ -10,16 +12,40 @@ class PullRequestClientTest {
     @Test
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun `can list pull requests`() = runTest {
+        val owner = "mjovanc"
+        val repo = "github-api"
 
+        val data = client.listPullRequests(
+            owner=owner,
+            repo=repo
+        )
+
+        assertNotNull(data)
     }
 
     @Test
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun `can create pull request`() = runTest {
+        val owner = "mjovanc"
+        val repo = "github-api"
 
+        val pullRequest = CreatePullRequest(
+            title="Test PR (UNIT TEST)",
+            body="Please pull these amazing changes in!",
+            head="github-api:test-pr",
+            base="master"
+        )
+
+        val data = client.createPullRequest(
+            owner=owner,
+            repo=repo,
+            pullRequest=pullRequest
+        )
+
+        assertNotNull(data)
     }
 
-    @Test
+    /*@Test
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun `can get a pull request`() = runTest {
 
@@ -59,5 +85,5 @@ class PullRequestClientTest {
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun `can update a pull request branch`() = runTest {
 
-    }
+    }*/
 }
