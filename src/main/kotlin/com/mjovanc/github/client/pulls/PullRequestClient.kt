@@ -2,7 +2,13 @@ package com.mjovanc.github.client.pulls
 
 import com.mjovanc.github.client.client
 import com.mjovanc.github.client.collaborators.CollaboratorsClient
+import com.mjovanc.github.model.request.pulls.CommitInfo
 import com.mjovanc.github.model.request.pulls.CreatePullRequest
+import com.mjovanc.github.model.request.pulls.ExpectedHeadSha
+import com.mjovanc.github.model.response.Commit
+import com.mjovanc.github.model.response.FileChange
+import com.mjovanc.github.model.response.MergeStatus
+import com.mjovanc.github.model.response.PullRequestUpdate
 import com.mjovanc.github.model.response.pulls.PullRequest
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -113,31 +119,111 @@ class PullRequestClient {
         return null
     }
 
-    suspend fun getPullRequest(): PullRequest? {
+    suspend fun getPullRequest(owner: String, repo: String, pullNumber: Long): PullRequest? {
+        try {
+            return client.get("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber") {
+                header("Accept", "application/vnd.github+json")
+                header("Authorization", "Bearer $token")
+                header("X-GitHub-Api-Version", "2022-11-28")
+            }.body<PullRequest>()
+        } catch (e: Exception) {
+            logger.error("Error getting pull request.", e)
+        }
+
         return null
     }
 
-    suspend fun updatePullRequest(): PullRequest? {
+    suspend fun updatePullRequest(owner: String, repo: String, pullNumber: Long, pullRequest: CreatePullRequest):
+            PullRequest? {
+        try {
+            val payload = Json.encodeToString(pullRequest)
+            return client.patch("https://api.github.com/repos/$owner/$repo/pulls") {
+                header("Accept", "application/vnd.github+json")
+                header("Authorization", "Bearer $token")
+                header("X-GitHub-Api-Version", "2022-11-28")
+                setBody(payload)
+            }.body<PullRequest>()
+        } catch (e: Exception) {
+            logger.error("Error update pull request.", e)
+        }
+
         return null
     }
 
-    suspend fun listCommitsOfPullRequest(): PullRequest? {
+    suspend fun listCommitsOnPullRequest(owner: String, repo: String, pullNumber: Long): List<Commit>? {
+        try {
+            return client.get("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/commits") {
+                header("Accept", "application/vnd.github+json")
+                header("Authorization", "Bearer $token")
+                header("X-GitHub-Api-Version", "2022-11-28")
+            }.body<List<Commit>>()
+        } catch (e: Exception) {
+            logger.error("Error listing commits on pull request.", e)
+        }
+
         return null
     }
 
-    suspend fun listFilesOfPullRequest(): PullRequest? {
+    suspend fun listFilesOfPullRequest(owner: String, repo: String, pullNumber: Long): List<FileChange>? {
+        try {
+            return client.get("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/files") {
+                header("Accept", "application/vnd.github+json")
+                header("Authorization", "Bearer $token")
+                header("X-GitHub-Api-Version", "2022-11-28")
+            }.body<List<FileChange>>()
+        } catch (e: Exception) {
+            logger.error("Error listing files of pull request.", e)
+        }
+
         return null
     }
 
-    suspend fun isPullRequestMerged(): PullRequest? {
+    suspend fun isPullRequestMerged(owner: String, repo: String, pullNumber: Long): Boolean? {
+        try {
+            val response = client.post("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/merge") {
+                header("Accept", "application/vnd.github+json")
+                header("Authorization", "Bearer $token")
+                header("X-GitHub-Api-Version", "2022-11-28")
+            }.status.value
+
+            return response == 204
+        } catch (e: Exception) {
+            logger.error("Error checking if pull request is merged.", e)
+        }
+
         return null
     }
 
-    suspend fun mergePullRequest(): PullRequest? {
+    suspend fun mergePullRequest(owner: String, repo: String, pullNumber: Long, commitInfo: CommitInfo): MergeStatus? {
+        try {
+            val payload = Json.encodeToString(commitInfo)
+            return client.put("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/merge") {
+                header("Accept", "application/vnd.github+json")
+                header("Authorization", "Bearer $token")
+                header("X-GitHub-Api-Version", "2022-11-28")
+                setBody(payload)
+            }.body<MergeStatus>()
+        } catch (e: Exception) {
+            logger.error("Error merging pull request.", e)
+        }
+
         return null
     }
 
-    suspend fun updateBranchOfPullRequest(): PullRequest? {
+    suspend fun updateBranchOfPullRequest(owner: String, repo: String, pullNumber: Long, expectedHeadSha: ExpectedHeadSha):
+            PullRequestUpdate? {
+        try {
+            val payload = Json.encodeToString(expectedHeadSha)
+            return client.put("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/update-branch") {
+                header("Accept", "application/vnd.github+json")
+                header("Authorization", "Bearer $token")
+                header("X-GitHub-Api-Version", "2022-11-28")
+                setBody(payload)
+            }.body<PullRequestUpdate>()
+        } catch (e: Exception) {
+            logger.error("Error updating branch of pull request.", e)
+        }
+
         return null
     }
 

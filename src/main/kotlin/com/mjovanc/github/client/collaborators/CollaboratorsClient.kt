@@ -85,13 +85,13 @@ class CollaboratorsClient {
      */
     suspend fun checkIfUserIsARepositoryCollaborator(owner: String, repo: String, username: String): Boolean? {
         try {
-            val request = client.get("https://api.github.com/repos/$owner/$repo/collaborators/$username") {
+            val response = client.get("https://api.github.com/repos/$owner/$repo/collaborators/$username") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
             }.status.value
 
-            return request == 204
+            return response == 204
         } catch (e: Exception) {
             logger.error("Error checking if a user is a repository collaborator.", e)
         }
