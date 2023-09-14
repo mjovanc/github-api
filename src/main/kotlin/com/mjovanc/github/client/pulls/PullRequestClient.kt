@@ -119,6 +119,16 @@ class PullRequestClient {
         return null
     }
 
+    /**
+     * Get pull request
+     *
+     * @param owner String
+     * @param repo String
+     * @param pullNumber Long
+     * @see <a href="https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#get-a-pull-request">Get a pull request</a>
+     * @since 0.1.0
+     * @return PullRequest? null if error
+     */
     suspend fun getPullRequest(owner: String, repo: String, pullNumber: Long): PullRequest? {
         try {
             return client.get("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber") {
@@ -133,6 +143,17 @@ class PullRequestClient {
         return null
     }
 
+    /**
+     * Update pull request.
+     *
+     * @param owner String
+     * @param repo String
+     * @param pullNumber Long
+     * @param pullRequest CreatePullRequest
+     * @see <a href="https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#update-a-pull-request">Update a pull request</a>
+     * @since 0.1.0
+     * @return PullRequest? null if error
+     */
     suspend fun updatePullRequest(owner: String, repo: String, pullNumber: Long, pullRequest: CreatePullRequest):
             PullRequest? {
         try {
@@ -150,6 +171,16 @@ class PullRequestClient {
         return null
     }
 
+    /**
+     * List commits on pull request.
+     *
+     * @param owner String
+     * @param repo String
+     * @param pullNumber Long
+     * @see <a href="https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#list-commits-on-a-pull-request">List commits on a pull request</a>
+     * @since 0.1.0
+     * @return List<Commit>? null if error
+     */
     suspend fun listCommitsOnPullRequest(owner: String, repo: String, pullNumber: Long): List<Commit>? {
         try {
             return client.get("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/commits") {
@@ -164,7 +195,17 @@ class PullRequestClient {
         return null
     }
 
-    suspend fun listFilesOfPullRequest(owner: String, repo: String, pullNumber: Long): List<FileChange>? {
+    /**
+     * List files on a pull request.
+     *
+     * @param owner String
+     * @param repo String
+     * @param pullNumber Long
+     * @see <a href="https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#list-pull-requests-files">List pull request files</a>
+     * @since 0.1.0
+     * @return List<FileChange>? null if error
+     */
+    suspend fun listFilesOnPullRequest(owner: String, repo: String, pullNumber: Long): List<FileChange>? {
         try {
             return client.get("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/files") {
                 header("Accept", "application/vnd.github+json")
@@ -178,6 +219,16 @@ class PullRequestClient {
         return null
     }
 
+    /**
+     * Check if pull request is merged.
+     *
+     * @param owner String
+     * @param repo String
+     * @param pullNumber Long
+     * @see <a href="https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#check-if-a-pull-request-has-been-merged">Check if a pull request has been merged</a>
+     * @since 0.1.0
+     * @return Boolean? null if error
+     */
     suspend fun isPullRequestMerged(owner: String, repo: String, pullNumber: Long): Boolean? {
         try {
             val response = client.post("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/merge") {
@@ -194,6 +245,17 @@ class PullRequestClient {
         return null
     }
 
+    /**
+     * Merge pull request.
+     *
+     * @param owner String
+     * @param repo String
+     * @param pullNumber Long
+     * @param commitInfo CommitInfo
+     * @see <a href="https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#merge-a-pull-request">Merge a pull request</a>
+     * @since 0.1.0
+     * @return MergeStatus? null if error
+     */
     suspend fun mergePullRequest(owner: String, repo: String, pullNumber: Long, commitInfo: CommitInfo): MergeStatus? {
         try {
             val payload = Json.encodeToString(commitInfo)
@@ -210,6 +272,17 @@ class PullRequestClient {
         return null
     }
 
+    /**
+     * Update branch of pull request.
+     *
+     * @param owner String
+     * @param repo String
+     * @param pullNumber Long
+     * @param expectedHeadSha ExpectedHeadSha
+     * @see <a href="https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#update-a-pull-request-branch">Update a pull request branch</a>
+     * @since 0.1.0
+     * @return PullRequestUpdate? null if error
+     */
     suspend fun updateBranchOfPullRequest(owner: String, repo: String, pullNumber: Long, expectedHeadSha: ExpectedHeadSha):
             PullRequestUpdate? {
         try {
