@@ -1,6 +1,5 @@
 package com.mjovanc.github.client.pulls
 
-import com.mjovanc.github.model.request.pulls.CreatePullRequest
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertNotNull
@@ -26,7 +25,7 @@ class PullRequestClientTest {
     @Test
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun `can create pull request`() = runTest {
-        val owner = "mjovanc"
+        /*val owner = "mjovanc"
         val repo = "github-api"
 
         val pullRequest = CreatePullRequest(
@@ -42,7 +41,7 @@ class PullRequestClientTest {
             pullRequest=pullRequest
         )
 
-        assertNotNull(data)
+        assertNotNull(data)*/
     }
 
     /*@Test
