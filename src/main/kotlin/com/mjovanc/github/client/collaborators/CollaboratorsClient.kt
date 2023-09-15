@@ -112,7 +112,6 @@ class CollaboratorsClient {
      */
     suspend fun addRepositoryCollaborator(owner: String, repo: String, username: String, permission: String? = "push"):
             RepositoryInvitation? {
-        //TODO for some reason it works, but it can not parse the response of JSON to map RepositoryInvitation
         try {
             val payload = Json.encodeToString(mapOf("permission" to permission))
             return client.put("https://api.github.com/repos/$owner/$repo/collaborators/$username") {
