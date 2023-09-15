@@ -48,7 +48,7 @@ class InvitationsClient {
     suspend fun listRepositoryInvitations(owner: String, repo: String, perPage: Int? = 30, page: Int? = 1):
             List<RepositoryInvitation>? {
         try {
-            return client.get("https://api.github.com/repos/$owner/$repo/invitations") {
+            val response = client.get("https://api.github.com/repos/$owner/$repo/invitations") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
@@ -85,9 +85,6 @@ class InvitationsClient {
         } catch (e: Exception) {
             logger.error("Error updating repository invitation.", e)
         }
-
-        //TODO: RepositoryInvitation differs from this: https://docs.github.com/en/rest/collaborators/invitations?apiVersion=2022-11-28#update-a-repository-invitation
-        // need to add a new data class perhaps
 
         return null
     }
@@ -131,16 +128,13 @@ class InvitationsClient {
     suspend fun listRepositoryInvitationsForAuthenticatedUser(owner: String, perPage: Int? = 30, page: Int? = 1):
             List<RepositoryInvitation>? {
         try {
-            val response = client.get("https://api.github.com/repos/$owner/repository_invitations") {
+            return client.get("https://api.github.com/repos/$owner/repository_invitations") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
                 parameter("per_page", perPage)
                 parameter("page", page)
-            }
-
-            if (response.status.isSuccess())
-                return response.body<List<RepositoryInvitation>>()
+            }.body<List<RepositoryInvitation>>()
         } catch (e: Exception) {
             logger.error("Error getting list of invitations for authenticated user.", e)
         }
