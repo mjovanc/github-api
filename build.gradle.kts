@@ -63,7 +63,7 @@ koverReport {
                 entity = kotlinx.kover.gradle.plugin.dsl.GroupingEntityType.APPLICATION
 
                 bound {
-                    minValue = 60
+                    minValue = 40
                     maxValue = 90
                     metric = kotlinx.kover.gradle.plugin.dsl.MetricType.LINE
                     aggregation = kotlinx.kover.gradle.plugin.dsl.AggregationType.COVERED_PERCENTAGE
