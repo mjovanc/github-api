@@ -1,7 +1,7 @@
 # Kotlin API for GitHub 
 
 [![alpha](https://kotl.in/badges/alpha.svg)](https://kotlinlang.org/docs/components-stability.html)
-[![build](https://img.shields.io/github/actions/workflow/status/mjovanc/github-api/master-ci.yml?branch=master)](https://github.com/mjovanc/github-api/actions/workflows/master-ci.yml) 
+[![build](https://img.shields.io/github/actions/workflow/status/mjovanc/github-api/develop-ci.yml?branch=develop)](https://github.com/mjovanc/github-api/actions/workflows/develop-ci.yml) 
 [![kotlin](https://img.shields.io/badge/kotlin-1.8.10-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![license](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![codecov](https://codecov.io/gh/mjovanc/github-api/branch/master/graph/badge.svg)](https://codecov.io/gh/mjovanc/github-api)
