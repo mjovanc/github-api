@@ -48,7 +48,7 @@ class InvitationsClient {
     suspend fun listRepositoryInvitations(owner: String, repo: String, perPage: Int? = 30, page: Int? = 1):
             List<RepositoryInvitation>? {
         try {
-            val response = client.get("https://api.github.com/repos/$owner/$repo/invitations") {
+            return client.get("https://api.github.com/repos/$owner/$repo/invitations") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
