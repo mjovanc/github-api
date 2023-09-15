@@ -2,8 +2,6 @@ val ktor_version: String by project
 val coroutines_version: String by project
 val slf4j_version: String by project
 val kotlin_version: String by project
-val ossrhUsername: String? = System.getProperty("ossrhUsername")
-val ossrhPassword: String? = System.getProperty("ossrhPassword") // this file should be in the HOME directory gradle.properties
 
 plugins {
     kotlin("jvm") version "1.9.10"
@@ -17,7 +15,7 @@ plugins {
 }
 
 group = "com.mjovanc.github"
-version = "0.1.0-SNAPSHOT"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
@@ -91,8 +89,8 @@ publishing {
             }
             pom {
                 name.set("Kotlin API for GitHub")
-                description.set("Kotlin API for GitHub")
-                url.set("https://github.com/mjovanc/github-api")
+                description.set("The Kotlin API for GitHub library.")
+                url.set("https://github.com/mjovanc")
                 licenses {
                     license {
                         name.set("The 3-Clause BSD License")
@@ -129,10 +127,33 @@ publishing {
                 create<BasicAuthentication>("basic")
             }
             credentials {
-                username = ossrhUsername
-                password = ossrhPassword
+                username = System.getenv("ORG_GRADLE_PROJECT_ossrhUsername")
+                password = System.getenv("ORG_GRADLE_PROJECT_ossrhPassword")
             }
         }
+
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/mjovanc/github-api")
+
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+
+signing {
+    val signingKey = System.getenv("ORG_GRADLE_PROJECT_signingKey")
+    val signingPassword = System.getenv("ORG_GRADLE_PROJECT_signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign(publishing.publications["mavenJava"])
+}
+
+tasks.javadoc {
+    if (JavaVersion.current().isJava9Compatible) {
+        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
     }
 }
 
