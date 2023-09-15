@@ -158,7 +158,7 @@ class PullRequestClient {
             PullRequest? {
         try {
             val payload = Json.encodeToString(pullRequest)
-            return client.patch("https://api.github.com/repos/$owner/$repo/pulls") {
+            return client.patch("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")

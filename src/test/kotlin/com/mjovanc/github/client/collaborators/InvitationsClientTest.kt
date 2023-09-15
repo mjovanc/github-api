@@ -25,10 +25,10 @@ class InvitationsClientTest {
     @Test
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun `can update repository invitation`() = runTest {
-        val owner = "mjovanc"
+        /*val owner = "mjovanc"
         val repo = "github-api"
         val invitationId = 1L
-        val permission = "write"
+        val permission = "write"*/
 
        /* val data = client.updateRepositoryInvitation(
             owner=owner,
