@@ -23,7 +23,7 @@ data class PullRequest(
     val locked: Boolean,
     val title: String,
     val user: User,
-    val body: String,
+    val body: String?,
     val labels: List<Label>,
     val milestone: Milestone?,
     @SerialName("active_lock_reason") val activeLockReason: String?,
