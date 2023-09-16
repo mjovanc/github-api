@@ -26,4 +26,4 @@ jobs:
           gradle-version: wrapper
           arguments: publishAllPublicationsToGithubPackagesRepository
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_SECRET }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
