@@ -3,9 +3,7 @@ package com.mjovanc.github.client.collaborators
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 class InvitationsClientTest {
 

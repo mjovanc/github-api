@@ -48,13 +48,16 @@ class InvitationsClient {
     suspend fun listRepositoryInvitations(owner: String, repo: String, perPage: Int? = 30, page: Int? = 1):
             List<RepositoryInvitation>? {
         try {
-            return client.get("https://api.github.com/repos/$owner/$repo/invitations") {
+            val response = client.get("https://api.github.com/repos/$owner/$repo/invitations") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
                 parameter("per_page", perPage)
                 parameter("page", page)
-            }.body<List<RepositoryInvitation>>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<List<RepositoryInvitation>>()
         } catch (e: Exception) {
             logger.error("Error getting list of repository collaborators.", e)
         }
@@ -76,12 +79,15 @@ class InvitationsClient {
             RepositoryInvitation? {
         try {
             val payload = Json.encodeToString(mapOf("permission" to permission))
-            return client.patch("https://api.github.com/repos/$owner/$repo/invitations/$invitationId") {
+            val response = client.patch("https://api.github.com/repos/$owner/$repo/invitations/$invitationId") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
                 setBody(payload)
-            }.body<RepositoryInvitation>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<RepositoryInvitation>()
         } catch (e: Exception) {
             logger.error("Error updating repository invitation.", e)
         }
@@ -128,13 +134,16 @@ class InvitationsClient {
     suspend fun listRepositoryInvitationsForAuthenticatedUser(owner: String, perPage: Int? = 30, page: Int? = 1):
             List<RepositoryInvitation>? {
         try {
-            return client.get("https://api.github.com/repos/$owner/repository_invitations") {
+            val response = client.get("https://api.github.com/repos/$owner/repository_invitations") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
                 parameter("per_page", perPage)
                 parameter("page", page)
-            }.body<List<RepositoryInvitation>>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<List<RepositoryInvitation>>()
         } catch (e: Exception) {
             logger.error("Error getting list of invitations for authenticated user.", e)
         }

@@ -6,6 +6,7 @@ import com.mjovanc.github.model.response.collaborators.CollaboratorPermission
 import com.mjovanc.github.model.response.collaborators.RepositoryInvitation
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
@@ -57,7 +58,7 @@ class CollaboratorsClient {
         page: Int? = 1
     ): List<Collaborator>? {
         try {
-            return client.get("https://api.github.com/repos/$owner/$repo/collaborators") {
+            val response = client.get("https://api.github.com/repos/$owner/$repo/collaborators") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
@@ -65,7 +66,10 @@ class CollaboratorsClient {
                 parameter("permission", permission)
                 parameter("per_page", perPage)
                 parameter("page", page)
-            }.body<List<Collaborator>>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<List<Collaborator>>()
         } catch (e: Exception) {
             logger.error("Error getting list of repository collaborators.", e)
         }
@@ -114,12 +118,15 @@ class CollaboratorsClient {
             RepositoryInvitation? {
         try {
             val payload = Json.encodeToString(mapOf("permission" to permission))
-            return client.put("https://api.github.com/repos/$owner/$repo/collaborators/$username") {
+            val response = client.put("https://api.github.com/repos/$owner/$repo/collaborators/$username") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
                 setBody(payload)
-            }.body<RepositoryInvitation>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<RepositoryInvitation>()
         } catch (e: Exception) {
             logger.error("Error adding repository collaborator.", e)
         }
@@ -165,11 +172,14 @@ class CollaboratorsClient {
      */
     suspend fun getRepositoryPermissionForUser(owner: String, repo: String, username: String): CollaboratorPermission? {
         try {
-            return client.get("https://api.github.com/repos/$owner/$repo/collaborators/$username/permission") {
+            val response = client.get("https://api.github.com/repos/$owner/$repo/collaborators/$username/permission") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
-            }.body<CollaboratorPermission>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<CollaboratorPermission>()
         } catch (e: Exception) {
             logger.error("Error with get repository permission for user.", e)
         }

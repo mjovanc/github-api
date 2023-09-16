@@ -70,7 +70,7 @@ class PullRequestClient {
         page: Int? = 1
     ): List<PullRequest>? {
         try {
-            return client.get("https://api.github.com/repos/$owner/$repo/pulls") {
+            val response = client.get("https://api.github.com/repos/$owner/$repo/pulls") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
@@ -81,7 +81,10 @@ class PullRequestClient {
                 parameter("direction", direction)
                 parameter("per_page", perPage)
                 parameter("page", page)
-            }.body<List<PullRequest>>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<List<PullRequest>>()
         } catch (e: Exception) {
             logger.error("Error getting list of repository collaborators.", e)
         }
@@ -131,11 +134,14 @@ class PullRequestClient {
      */
     suspend fun getPullRequest(owner: String, repo: String, pullNumber: Long): PullRequest? {
         try {
-            return client.get("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber") {
+            val response = client.get("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
-            }.body<PullRequest>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<PullRequest>()
         } catch (e: Exception) {
             logger.error("Error getting pull request.", e)
         }
@@ -158,12 +164,15 @@ class PullRequestClient {
             PullRequest? {
         try {
             val payload = Json.encodeToString(pullRequest)
-            return client.patch("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber") {
+            val response = client.patch("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
                 setBody(payload)
-            }.body<PullRequest>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<PullRequest>()
         } catch (e: Exception) {
             logger.error("Error update pull request.", e)
         }
@@ -183,11 +192,14 @@ class PullRequestClient {
      */
     suspend fun listCommitsOnPullRequest(owner: String, repo: String, pullNumber: Long): List<Commit>? {
         try {
-            return client.get("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/commits") {
+            val response = client.get("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/commits") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
-            }.body<List<Commit>>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<List<Commit>>()
         } catch (e: Exception) {
             logger.error("Error listing commits on pull request.", e)
         }
@@ -207,11 +219,14 @@ class PullRequestClient {
      */
     suspend fun listFilesOnPullRequest(owner: String, repo: String, pullNumber: Long): List<FileChange>? {
         try {
-            return client.get("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/files") {
+            val response = client.get("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/files") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
-            }.body<List<FileChange>>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<List<FileChange>>()
         } catch (e: Exception) {
             logger.error("Error listing files of pull request.", e)
         }
@@ -259,12 +274,15 @@ class PullRequestClient {
     suspend fun mergePullRequest(owner: String, repo: String, pullNumber: Long, commitInfo: CommitInfo): MergeStatus? {
         try {
             val payload = Json.encodeToString(commitInfo)
-            return client.put("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/merge") {
+            val response = client.put("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/merge") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
                 setBody(payload)
-            }.body<MergeStatus>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<MergeStatus>()
         } catch (e: Exception) {
             logger.error("Error merging pull request.", e)
         }
@@ -287,12 +305,15 @@ class PullRequestClient {
             PullRequestUpdate? {
         try {
             val payload = Json.encodeToString(expectedHeadSha)
-            return client.put("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/update-branch") {
+            val response = client.put("https://api.github.com/repos/$owner/$repo/pulls/$pullNumber/update-branch") {
                 header("Accept", "application/vnd.github+json")
                 header("Authorization", "Bearer $token")
                 header("X-GitHub-Api-Version", "2022-11-28")
                 setBody(payload)
-            }.body<PullRequestUpdate>()
+            }
+
+            if (response.status.isSuccess())
+                return response.body<PullRequestUpdate>()
         } catch (e: Exception) {
             logger.error("Error updating branch of pull request.", e)
         }
